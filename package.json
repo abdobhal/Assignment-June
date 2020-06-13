@@ -30,6 +30,6 @@
     "webpack": "^1.13.0",
     "typedarray-to-buffer": "^3.1.2",
     "yaeti": "0.0.6",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^3.1.11"
   }
 }
