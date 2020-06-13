@@ -1,0 +1,49 @@
+<html>
+<head>
+    <!--
+    This is the library that provides websocket streaming pub/sub
+    The dev serverver is serving the html and javascript, but it also provides updating fx data on /fx/prices.
+     -->
+    <script src="stomp.js"></script>
+    <script src="sparkline.js"></script>
+</head>
+<body>
+
+<!-- This is a description of what you should do for this task.  You can remove it for your answer -->
+<section class="content">
+    <h1>Updating Table</h1>
+    <ul class="header">
+        <li>Name</li>
+        <li>Best Bid</li>
+        <li>Best Ask</li>
+        <li>Last changed Bid</li>
+        <li>Last changed Ask</li>
+        <li>Spark</li>
+    </ul>
+
+    <div id="table-root">
+
+    </div>
+
+
+
+    <h3>The code explaination</h3>
+    <p>
+        The recommended way to handle such cases, where there are so much of dom manipulations every fraction of second is React.JS.
+    </p>
+    <p>
+        Using React, there would be a remarkable improvement in the page and website performance, as React maintains a virtual DOM and only injects the changes which are required to be changed in the DOM.
+    </p>
+    <p>
+        If I had some more time, I would have implemented the solution in React as then I only had to maintain and update the state and re-rendering part would have been efficiently handled by React.
+        Unit testing frameworks like Enzyme/Jest can also be used with React Applications.
+    </p>
+
+</section>
+
+<!-- Code you write in index.js and anything it depends on will be bundled into bundle.js and
+     is included here -->
+<script src="bundle.js"></script>
+
+</body>
+</html>
