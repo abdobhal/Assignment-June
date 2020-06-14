@@ -198,7 +198,7 @@ class calculateAndDrawTable{
 		} else {
 			this._insertNewElements(rowData, index);
 		}
-		this._populateTable(this.bidData);
+		this._sparkLineGenerator(this.bidData);
 	}
 		
 
