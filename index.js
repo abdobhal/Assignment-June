@@ -111,8 +111,8 @@ class calculateAndDrawTable{
 		}
 		this.wrapper.innerHTML = rowData.join("");
 
-		// Now generate Spark lines.
 		this._sparkLineGenerator(sortedArray);
+		
 		
 	}
 
@@ -143,6 +143,7 @@ class calculateAndDrawTable{
 		
 	}
 
+
 	/**
      * Used to sort the bidData Array on the basis of Best Bid.
      * @private
@@ -157,6 +158,26 @@ class calculateAndDrawTable{
 		this._populateTable(sortedArr);
 	}
 
+	_insertNewElements(rowData, index){
+		let indexedUl = this.wrapper.querySelectorAll("ul")[index];
+
+		indexedUl.querySelectorAll('li')[1].innerHTML = rowData.bestBid;
+		indexedUl.querySelectorAll('li')[2].innerHTML = rowData.bestAsk;
+		indexedUl.querySelectorAll('li')[3].innerHTML = rowData.lastChangeBid;
+		indexedUl.querySelectorAll('li')[4].innerHTML = rowData.lastChangeAsk;
+	}
+
+	_swapRowsAndInsertElements(rowData, index){
+		let indexedUl = this.wrapper.querySelectorAll("ul")[index],
+			nextIndexedUl = this.wrapper.querySelectorAll("ul")[index+1];
+
+		indexedUl.querySelectorAll('li')[1].innerHTML = rowData.bestBid;
+		indexedUl.querySelectorAll('li')[2].innerHTML = rowData.bestAsk;
+		indexedUl.querySelectorAll('li')[3].innerHTML = rowData.lastChangeBid;
+		indexedUl.querySelectorAll('li')[4].innerHTML = rowData.lastChangeAsk;
+		this.wrapper.insertBefore(nextIndexedUl,indexedUl);
+	}
+
 	/**
      * Called when the incoming data is already present in table and updation is required.
      * @param rowData
@@ -164,10 +185,19 @@ class calculateAndDrawTable{
      */
 
 	_updateRow(rowData){
-		const index = this.bidData.findIndex(element => element.name === rowData.name );
-		this.bidData[index] = rowData;
-		this._sortByBestBid();
+		let index = this.bidData.findIndex(element => element.name === rowData.name );
+
+		if(this.wrapper.querySelectorAll("ul")[index+1]){
+			if(this.wrapper.querySelectorAll("ul")[index+1].querySelectorAll('li')[1].innerHTML > rowData.bestBid){
+				this._insertNewElements(rowData, index);
+			} else {
+				this._swapRowsAndInsertElements(rowData, index);
+			}
+		} else {
+			this._insertNewElements(rowData, index);
+		}
 	}
+		
 
 	/**
      * Callback for Connect
