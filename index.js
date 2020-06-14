@@ -167,15 +167,15 @@ class calculateAndDrawTable{
 		indexedUl.querySelectorAll('li')[4].innerHTML = rowData.lastChangeAsk;
 	}
 
-	_swapRowsAndInsertElements(rowData, index){
+	_swapRowsAndInsertElements(rowData, index, targerIndex){
 		let indexedUl = this.wrapper.querySelectorAll("ul")[index],
-			nextIndexedUl = this.wrapper.querySelectorAll("ul")[index+1];
+			nextIndexedUl = this.wrapper.querySelectorAll("ul")[targerIndex];
 
 		indexedUl.querySelectorAll('li')[1].innerHTML = rowData.bestBid;
 		indexedUl.querySelectorAll('li')[2].innerHTML = rowData.bestAsk;
 		indexedUl.querySelectorAll('li')[3].innerHTML = rowData.lastChangeBid;
 		indexedUl.querySelectorAll('li')[4].innerHTML = rowData.lastChangeAsk;
-		this.wrapper.insertBefore(nextIndexedUl,indexedUl);
+		this.wrapper.insertBefore(indexedUl,nextIndexedUl);
 	}
 
 	/**
@@ -185,7 +185,8 @@ class calculateAndDrawTable{
      */
 
 	_updateRow(rowData){
-		let index = this.bidData.findIndex(element => element.name === rowData.name );
+		let index = this.bidData.findIndex(element => element.name === rowData.name ),
+			length = this.wrapper.querySelectorAll("ul").length;
 
 		this.bidData[index] = rowData;
 
@@ -193,7 +194,20 @@ class calculateAndDrawTable{
 			if(this.wrapper.querySelectorAll("ul")[index+1].querySelectorAll('li')[1].innerHTML > rowData.bestBid){
 				this._insertNewElements(rowData, index);
 			} else {
-				this._swapRowsAndInsertElements(rowData, index);
+				//  Check recurssively till it satisfies the condition
+				for(let i=1;i<length;i++){
+					if(this.wrapper.querySelectorAll("ul")[index+i].querySelectorAll('li')[1].innerHTML < rowData.bestBid){
+						// Pass, Go to next iteration
+					} else {
+						// Now track the new index before which we need to append.
+						this._swapRowsAndInsertElements(rowData, index, index+i);
+						const sortedArr = this.bidData.sort((a,b)=>{
+						    return (a.bestBid > b.bestBid) ? 1 : ((b.bestBid > a.bestBid) ? -1 : 0);
+						});
+						break;
+					}
+				}
+				
 			}
 		} else {
 			this._insertNewElements(rowData, index);
