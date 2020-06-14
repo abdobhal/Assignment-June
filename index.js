@@ -187,6 +187,8 @@ class calculateAndDrawTable{
 	_updateRow(rowData){
 		let index = this.bidData.findIndex(element => element.name === rowData.name );
 
+		this.bidData[index] = rowData;
+
 		if(this.wrapper.querySelectorAll("ul")[index+1]){
 			if(this.wrapper.querySelectorAll("ul")[index+1].querySelectorAll('li')[1].innerHTML > rowData.bestBid){
 				this._insertNewElements(rowData, index);
@@ -196,6 +198,7 @@ class calculateAndDrawTable{
 		} else {
 			this._insertNewElements(rowData, index);
 		}
+		this._populateTable(this.bidData);
 	}
 		
 
